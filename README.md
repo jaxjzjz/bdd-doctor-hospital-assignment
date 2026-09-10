@@ -244,9 +244,10 @@ These results show that a greedy assignment can occasionally match the optimal c
 
 The Git commit history records changes made through GitHub. The team should add a final, accurate description of each member's contributions before submitting the repository link.
 
+
 ## AI Tool Use
 
-AI tools were used only to provide suggestions, validate the code, run tests, and assist with debugging.
+AI-assisted tools were used during development for code review suggestions, debugging assistance, and documentation refinement. 
 
 ## References
 
