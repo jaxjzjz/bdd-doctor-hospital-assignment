@@ -28,6 +28,19 @@ class ValidationTests(unittest.TestCase):
         with self.assertRaises(TypeError):
             validate_inputs(self.preferences, {"H1": True, "H2": 1})
 
+    def test_zero_capacity_is_allowed_when_total_capacity_is_sufficient(self):
+        validate_inputs(self.preferences, {"H1": 0, "H2": 2})
+
+    def test_incomplete_ranking_fails(self):
+        invalid = {"D1": ["H1"], "D2": ["H2", "H1"]}
+        with self.assertRaisesRegex(ValueError, "rank every hospital"):
+            validate_inputs(invalid, self.capacities)
+
+    def test_unknown_hospital_fails(self):
+        invalid = {"D1": ["H1", "H3"], "D2": ["H2", "H1"]}
+        with self.assertRaisesRegex(ValueError, "do not match"):
+            validate_inputs(invalid, self.capacities)
+
     def test_preference_parser_accepts_numbers_and_commas(self):
         hospitals = ["H1", "H2", "H3"]
         self.assertEqual(

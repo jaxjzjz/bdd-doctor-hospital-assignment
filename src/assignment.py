@@ -47,7 +47,9 @@ def hungarian_algorithm(cost_matrix: list[list[int]]) -> list[int]:
     row_count = len(cost_matrix)
     column_count = len(cost_matrix[0])
     if row_count > column_count:
-        raise ValueError("Number of hospital slots must be at least the number of doctors.")
+        raise ValueError(
+            "Number of hospital slots must be at least the number of doctors."
+        )
 
     row_potential = [0] * (row_count + 1)
     column_potential = [0] * (column_count + 1)

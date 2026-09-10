@@ -7,6 +7,23 @@ import random
 from .validation import validate_inputs
 
 
+def _greedy_assignment(
+    preferences: dict[str, list[str]],
+    capacities: dict[str, int],
+    doctor_order: list[str],
+) -> dict[str, dict[str, str]]:
+    """Run greedy assignment on data that has already been validated."""
+    remaining_capacity = capacities.copy()
+    assignment = {}
+    for doctor in doctor_order:
+        for hospital in preferences[doctor]:
+            if remaining_capacity[hospital] > 0:
+                assignment[doctor] = {"hospital": hospital}
+                remaining_capacity[hospital] -= 1
+                break
+    return assignment
+
+
 def greedy_assignment(
     preferences: dict[str, list[str]],
     capacities: dict[str, int],
@@ -17,16 +34,7 @@ def greedy_assignment(
     order = list(preferences) if doctor_order is None else list(doctor_order)
     if set(order) != set(preferences) or len(order) != len(preferences):
         raise ValueError("Doctor order must contain every doctor exactly once.")
-
-    remaining_capacity = capacities.copy()
-    assignment = {}
-    for doctor in order:
-        for hospital in preferences[doctor]:
-            if remaining_capacity[hospital] > 0:
-                assignment[doctor] = {"hospital": hospital}
-                remaining_capacity[hospital] -= 1
-                break
-    return assignment
+    return _greedy_assignment(preferences, capacities, order)
 
 
 def run_randomized_greedy(
@@ -45,5 +53,5 @@ def run_randomized_greedy(
     for _ in range(trials):
         order = doctors.copy()
         generator.shuffle(order)
-        assignments.append(greedy_assignment(preferences, capacities, order))
+        assignments.append(_greedy_assignment(preferences, capacities, order))
     return assignments

@@ -1,12 +1,10 @@
-"""Interactive notebook-friendly demonstration of the assignment system."""
+# Interactive notebook-friendly demonstration of the assignment system.
 
 from pprint import pprint
-
 from src.assignment import solve_hungarian
 from src.baseline import run_randomized_greedy
 from src.input_data import collect_manual_preferences, generate_random_preferences
 from src.metrics import evaluate_assignment, summarize_trials
-
 
 def read_positive_integer(prompt: str) -> int:
     """Read a positive integer, repeating until the input is valid."""
@@ -18,7 +16,6 @@ def read_positive_integer(prompt: str) -> int:
             return value
         except ValueError:
             print("Please enter a positive integer.")
-
 
 def read_capacities(hospitals: list[str], doctor_count: int) -> dict[str, int]:
     """Read capacities and repeat the complete entry if total capacity is low."""
@@ -44,7 +41,6 @@ def read_capacities(hospitals: list[str], doctor_count: int) -> dict[str, int]:
             "need assignments. Please enter all capacities again."
         )
 
-
 def collect_preferences(
     doctors: list[str], hospitals: list[str]
 ) -> dict[str, list[str]]:
@@ -63,14 +59,12 @@ def collect_preferences(
             return generate_random_preferences(doctors, hospitals, seed=seed)
         print("Enter m for manual input or r for a random demo.")
 
-
 def print_preferences(preferences: dict[str, list[str]]) -> None:
     """Display complete preference rankings."""
     print("\nPreferences")
     print("-" * 50)
     for doctor, hospitals in preferences.items():
         print(f"{doctor}: {' > '.join(hospitals)}")
-
 
 def print_assignment(title: str, assignment: dict[str, dict[str, str]]) -> None:
     """Display one assignment in doctor order."""
@@ -79,11 +73,8 @@ def print_assignment(title: str, assignment: dict[str, dict[str, str]]) -> None:
     for doctor, result in assignment.items():
         print(f"{doctor} -> {result['hospital']}")
 
-
 def main() -> None:
-    """Run the complete interactive workflow."""
-    print("DOCTOR-HOSPITAL ASSIGNMENT SYSTEM")
-    print("=" * 50)
+    # Run the complete interactive workflow.
     doctor_count = read_positive_integer("Number of doctors: ")
     hospital_count = read_positive_integer("Number of hospitals: ")
 

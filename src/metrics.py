@@ -12,14 +12,22 @@ def evaluate_assignment(
     preferences: dict[str, list[str]],
 ) -> dict[str, object]:
     """Evaluate a complete assignment using rank-based metrics."""
+    if len(doctors) != len(set(doctors)):
+        raise ValueError("Doctor list cannot contain duplicate names.")
+    if set(doctors) != set(preferences):
+        raise ValueError("Doctor list must match the preference dictionary.")
     if set(assignment) != set(doctors) or len(assignment) != len(doctors):
         raise ValueError("Every doctor must have exactly one assignment.")
 
     rank_lookup = create_rank_lookup(preferences)
-    assigned_ranks = {
-        doctor: rank_lookup[doctor][assignment[doctor]["hospital"]]
-        for doctor in doctors
-    }
+    assigned_ranks = {}
+    for doctor in doctors:
+        hospital = assignment[doctor].get("hospital")
+        if hospital not in rank_lookup[doctor]:
+            raise ValueError(
+                f"Assignment for {doctor!r} contains an unknown hospital."
+            )
+        assigned_ranks[doctor] = rank_lookup[doctor][hospital]
     ranks = list(assigned_ranks.values())
     total_cost = sum(ranks)
     first_choice_count = sum(rank == 1 for rank in ranks)

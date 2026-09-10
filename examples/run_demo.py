@@ -16,24 +16,31 @@ preferences = {
 }
 
 capacities = {"H1": 2, "H2": 2, "H3": 1}
-doctors = list(preferences)
 
-hungarian_assignment = solve_hungarian(preferences, capacities)
-hungarian_metrics = evaluate_assignment(
-    doctors, hungarian_assignment, preferences
-)
 
-greedy_assignments = run_randomized_greedy(
-    preferences, capacities, trials=100, seed=10
-)
-greedy_metrics = [
-    evaluate_assignment(doctors, assignment, preferences)
-    for assignment in greedy_assignments
-]
+def main() -> None:
+    """Run the small reproducible example."""
+    doctors = list(preferences)
+    hungarian_assignment = solve_hungarian(preferences, capacities)
+    hungarian_metrics = evaluate_assignment(
+        doctors, hungarian_assignment, preferences
+    )
 
-print("Hungarian assignment")
-pprint(hungarian_assignment)
-print("\nHungarian metrics")
-pprint(hungarian_metrics)
-print("\nRandomized greedy summary (100 trials)")
-pprint(summarize_trials(greedy_metrics))
+    greedy_assignments = run_randomized_greedy(
+        preferences, capacities, trials=100, seed=10
+    )
+    greedy_metrics = [
+        evaluate_assignment(doctors, assignment, preferences)
+        for assignment in greedy_assignments
+    ]
+
+    print("Hungarian assignment")
+    pprint(hungarian_assignment)
+    print("\nHungarian metrics")
+    pprint(hungarian_metrics)
+    print("\nRandomized greedy summary (100 trials)")
+    pprint(summarize_trials(greedy_metrics))
+
+
+if __name__ == "__main__":
+    main()

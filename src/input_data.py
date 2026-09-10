@@ -4,8 +4,6 @@ from __future__ import annotations
 
 import random
 
-from .validation import validate_inputs
-
 
 def parse_preference_entry(entry: str, hospitals: list[str]) -> list[str]:
     """Parse hospital numbers or names entered in preference order."""
@@ -64,12 +62,3 @@ def collect_manual_preferences(
             except ValueError as error:
                 output_function(f"Invalid preference list: {error}")
     return preferences
-
-
-def build_problem(
-    preferences: dict[str, list[str]],
-    capacities: dict[str, int],
-) -> tuple[list[str], list[str]]:
-    """Validate a problem and return stable doctor and hospital orderings."""
-    validate_inputs(preferences, capacities)
-    return list(preferences), list(capacities)

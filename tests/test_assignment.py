@@ -52,8 +52,37 @@ class AssignmentTests(unittest.TestCase):
                         for _ in range(row_count)
                     ]
                     assignment = hungarian_algorithm(matrix)
-                    actual = sum(matrix[row][column] for row, column in enumerate(assignment))
+                    actual = sum(
+                        matrix[row][column]
+                        for row, column in enumerate(assignment)
+                    )
                     self.assertEqual(actual, brute_force_cost(matrix))
+
+    def test_extra_capacity_is_allowed(self):
+        capacities = {"H1": 2, "H2": 2}
+        assignment = solve_hungarian(self.preferences, capacities)
+        self.assertEqual(set(assignment), set(self.preferences))
+
+    def test_metrics_reject_unknown_hospital(self):
+        invalid_assignment = {
+            "D1": {"hospital": "H3"},
+            "D2": {"hospital": "H1"},
+            "D3": {"hospital": "H2"},
+        }
+        with self.assertRaisesRegex(ValueError, "unknown hospital"):
+            evaluate_assignment(
+                list(self.preferences), invalid_assignment, self.preferences
+            )
+
+    def test_metrics_reject_missing_doctor(self):
+        incomplete_assignment = {
+            "D1": {"hospital": "H1"},
+            "D2": {"hospital": "H2"},
+        }
+        with self.assertRaisesRegex(ValueError, "Every doctor"):
+            evaluate_assignment(
+                list(self.preferences), incomplete_assignment, self.preferences
+            )
 
     def test_randomized_greedy_is_reproducible(self):
         first = run_randomized_greedy(

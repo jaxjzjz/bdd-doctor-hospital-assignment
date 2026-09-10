@@ -1,12 +1,10 @@
-"""Larger reproducible example with 20 doctors and 6 hospitals."""
+# Larger reproducible example with 20 doctors and 6 hospitals.
 
 from pprint import pprint
-
 from src.assignment import solve_hungarian
 from src.baseline import run_randomized_greedy
 from src.metrics import evaluate_assignment, summarize_trials
 from src.validation import validate_inputs
-
 
 capacities = {
     "H1": 4,
@@ -39,7 +37,6 @@ preferences = {
     "D19": ["H2", "H3", "H1", "H5", "H4", "H6"],
     "D20": ["H3", "H2", "H4", "H1", "H6", "H5"],
 }
-
 
 def main() -> None:
     """Validate, solve, and compare the larger example."""
@@ -76,7 +73,6 @@ def main() -> None:
 
     print("\nRandomized greedy summary (1,000 trials)")
     pprint(summarize_trials(greedy_metrics))
-
 
 if __name__ == "__main__":
     main()
