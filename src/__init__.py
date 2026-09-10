@@ -1,1 +1,0 @@
-"""Doctor-hospital assignment package."""
