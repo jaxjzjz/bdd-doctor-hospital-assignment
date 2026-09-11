@@ -134,7 +134,9 @@ For three hospitals, a manual entry such as:
 ```
 
 means `H2` is the first choice, `H1` is the second choice, and `H3` is the third choice.
+
  Choose `m` for manual preferences or `r` for random preferences; the random-input seed defaults to 0.
+
 4. Continue to the last cell to see the assignment and comparison results.
 
 ## Larger Example Result
